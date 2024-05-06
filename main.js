@@ -73,7 +73,6 @@ class Dropdown {
   upload() {
     this.updateBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      console.log(`目前是${this.valueArr}`);
       console.log(
         `目前是${this.text},您有勾選的項目為${
           this.valueArr.length ? this.valueArr.join() : "無"
@@ -87,21 +86,17 @@ class Dropdown {
   }
   // 渲染
   render() {
-    console.log(this.text);
-
     this.data.forEach((item) => {
-      this.content += `<div> <input type="checkbox" value="${
-        this.text + item.value
-      }"  class="optionCheck"> ${item.content}</div>`;
+      this.content += `<div> <input type="checkbox" value="${item.value}"  class="optionCheck"> ${item.content}</div>`;
     });
     this.selectContent.innerHTML = this.content;
-
-    const optionsValue = document.querySelectorAll(".optionCheck");
-    // console.log(optionsValue);
+    // 這邊因為沒有對正確的select下手導致會選到同個範圍的
+    const optionsValue = document.querySelectorAll(
+      `.${this.selectContent.className} .optionCheck`
+    );
 
     optionsValue.forEach((item, index) => {
       item.addEventListener("click", (e) => {
-        console.log(index);
         e.target.checked
           ? this.valueArr.push(e.target.value)
           : this.deleteValue(e.target.value);
@@ -125,7 +120,7 @@ component1.init();
 
 const component2 = new Dropdown(
   ".dropdown-content2",
-  ".dropdown-get-btn2",
+  ".dropdown-get-btn",
   data,
   "元件二"
 );
